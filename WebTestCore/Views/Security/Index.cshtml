@@ -1,0 +1,38 @@
+﻿@model WebTestCore.Models.Security.SecurityVm
+@Html.ValidationSummary()
+
+@using (Html.BeginForm("Index", "Security", FormMethod.Post))
+{
+    @Html.ValidationSummary()
+
+    <h3> Input you login and password</h3>
+    <fieldset>
+        <div class="mb-3, editor-field">
+            @*@Html.LabelFor(p => p.Login)*@
+            <label>Login</label>
+            @*<br />*@
+            <input type="text" class="form-control" name="Login" id="Login" autofocus required />
+
+            @*@Html.EditorFor(p => p.Login)*@
+            @*@Html.ValidationMessageFor(p => p.Login)*@
+        </div>
+        <div class="mb-3, editor-field">
+            @*@Html.LabelFor(p => p.Password)*@
+            <label>Password</label>
+            <br />
+            <input type="password" class="form-control" name="Password" id="Password" required>
+            <span asp-validation-for="Password"></span>
+            @*@Html.PasswordFor(p => p.Password)*@
+            @*@Html.ValidationMessageFor(p => p.Password)*@
+        </div>
+        @*<button type="submit" class="btn btn-primary" name="Submit">Submit</button>*@
+        <button  type="submit" class="btn btn-primary" name="Submit" 
+                asp-action="Index" asp-controller="Security" asp-route-area="Security"
+                >Submit</button>
+    </fieldset>
+}
+@{Html.EndForm();}
+
+@section scripts{
+
+}

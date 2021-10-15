@@ -1,0 +1,23 @@
+﻿@model WebTestCore.Models.Security.SecurityVm
+
+@{
+    ViewBag.Title = "Result";
+
+}
+@using (Html.BeginForm("Result", "Security", FormMethod.Post))
+{
+    @Html.ValidationSummary()
+
+    <h3>You input: </h3>
+    @*<div class="mb-3, editor-field">
+        @Html.LabelFor(p => p.Login)
+        <br />
+        @Html.TextBoxFor(p => p.Login, new { @readonly = "readonly" })
+        @Html.ValidationMessageFor(p => p.Login)
+    </div>
+    <div class="mb-3, editor-field">
+        @Html.LabelFor(p => p.Password)
+        <br />
+        @Html.TextBoxFor(p => p.Password, new { @readonly = "readonly" })
+    </div>*@
+}
