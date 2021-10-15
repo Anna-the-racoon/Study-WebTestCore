@@ -25,11 +25,11 @@ namespace WebTestCore.Models.Security
         }
 
 
-        [HttpPost]
-        [ActionName("Submit")]
-        public ActionResult Result()
-        {
-            return View("Result", new SecurityVm() { Login = "1", Password = "10" });
-        }
+        //[HttpPost]
+        //[ActionName("Submit")]
+        //public ActionResult Result()
+        //{
+        //    return View("Result", new SecurityVm() { Login = "1", Password = "10" });
+        //}
     }
 }
