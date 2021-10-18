@@ -9,28 +9,34 @@
     @Html.ValidationSummary()
 
     <h3>You input: </h3>
-    @*<div class="mb-3, editor-field">
-            @Html.LabelFor(p => p.Login)
-            <br />
-            @Html.TextBoxFor(p => p.Login, new { @readonly = "readonly" })
-            @Html.ValidationMessageFor(p => p.Login)
-        </div>*@
     <div class="mb-3, editor-field">
         <label>Login</label>
         <input type="text" class="form-control" value="@Model.Login" autofocus readonly />
     </div>
-    @*<div class="mb-3, editor-field">
-            @Html.LabelFor(p => p.Password)
-            <br />
-            @Html.TextBoxFor(p => p.Password, new { @readonly = "readonly" })
-        </div>*@
     <div class="mb-3, editor-field">
         <label>Password</label>
         <input type="text" class="form-control" value="@Model.Password" readonly />
     </div>
-    <button type="submit" class="btn btn-primary"
-            asp-action="Index" asp-controller="Admin" asp-route-area="Area">
-        Вход в админ панель
+    <button type="submit" class="btn btn-primary" asp-action="Index" asp-controller="Admin" asp-route-area="Area">
+        Open admin
     </button>
 
 }
+
+
+@*<h3>You input: </h3>
+<div class="mb-3, editor-field">
+        @Html.LabelFor(p => p.Login)
+        <br />
+        @Html.TextBoxFor(p => p.Login, new { @readonly = "readonly" })
+        @Html.ValidationMessageFor(p => p.Login)
+    </div>
+<div class="mb-3, editor-field">
+        @Html.LabelFor(p => p.Password)
+        <br />
+        @Html.TextBoxFor(p => p.Password, new { @readonly = "readonly" })
+    </div>
+<button type="submit" class="btn btn-primary"
+        asp-action="Index" asp-controller="Admin" asp-route-area="Area">
+    Вход в админ панель
+</button>*@
