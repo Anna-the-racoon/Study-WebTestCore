@@ -15,12 +15,6 @@ namespace WebTestCore.Models.Security
         {
             if (!ModelState.IsValid) return View("Index");
 
-            //var security = new SecurityVm()
-            //{
-            //    Login = model.Login,
-            //    Password = model.Password
-            //};
-
             return View("Result", security);
         }
     }
