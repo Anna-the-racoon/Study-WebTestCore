@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebTestCore.Filters;
 
 namespace WebTestCore
 {
@@ -19,6 +20,15 @@ namespace WebTestCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddMvcCore(options =>
+                options.Filters.Add(new HeaderActionFilter()));
+
+            services.AddMvcCore(options =>
+                options.Filters.Add(new FormActionFilter()));
+
+            services.AddMvcCore(options =>
+                options.Filters.Add(new BodyActionFilter()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
