@@ -24,11 +24,11 @@ namespace WebTestCore
             services.AddMvcCore(options =>
                 options.Filters.Add(new HeaderActionFilter()));
 
-            services.AddMvcCore(options =>
-                options.Filters.Add(new FormActionFilter()));
+            //services.AddMvcCore(options =>
+            //    options.Filters.Add(new FormActionFilter()));
 
-            services.AddMvcCore(options =>
-                options.Filters.Add(new BodyActionFilter()));
+            //services.AddMvcCore(options =>
+            //    options.Filters.Add(new BodyActionFilter()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

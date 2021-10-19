@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using System;
+using WebTestCore.Shared;
 
 namespace WebTestCore.Filters
 {
@@ -9,12 +10,11 @@ namespace WebTestCore.Filters
         {
             Console.WriteLine("\nExecuted method header:");
 
-            var header = context.HttpContext.Request.Headers;
+            var response = context.HttpContext.Response;
 
-            foreach (var key in header)
-            {
-                Console.WriteLine($"{key.Key}: {key.Value};");
-            }
+            if (response.Body == null) return;
+
+            response.Body = new GetHtmlStream(response.Body);
 
             Console.WriteLine("");
         }
@@ -23,12 +23,22 @@ namespace WebTestCore.Filters
         public void OnActionExecuting(ActionExecutingContext context)
         {
             Console.WriteLine("\nExecuting method header:");
-
-            var header = context.HttpContext.Request.Headers;
-
-            foreach (var key in header)
+            foreach (var key in context.HttpContext.Request.Headers)
             {
                 Console.WriteLine($"{key.Key}: {key.Value};");
+            }
+
+            Console.WriteLine("\nExecuting method form:");
+            try
+            {
+                foreach (var key in context.HttpContext.Request.Form)
+                {
+                    Console.WriteLine($"{key.Key}: {key.Value};");
+                }
+            }
+            catch (Exception exception)
+            { 
+                Console.WriteLine(exception.Message); 
             }
 
             Console.WriteLine("");
