@@ -2,39 +2,36 @@
 
 @using (Html.BeginForm("Index", "Security", FormMethod.Post))
 {
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white box-shadow mb-3">
+        <div class="container">
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse ">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-success" asp-action="Create" asp-controller="Security">Create</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <h3> Input you login and password</h3>
-    <fieldset>
-        <div class="mb-3, editor-field">
-            <label>Login</label>
-            <input class="form-control" data-val="true" data-val-required="Не указан логин" type="text" asp-for="@Model.Login" autofocus required/>
-            <span class="field-validation-valid" asp-validation-for="Login" data-valmsg-for="Login" data-valmsg-replace="true"></span>
-        </div>
-        <div class="mb-3, editor-field">
-            <label>Password</label>
-            <input class="form-control" data-val="true" data-val-required="Не указан пароль" type="password" asp-for="@Model.Password" required>
-            <span class="field-validation-valid" asp-validation-for="Password" data-valmsg-replace="true"></span>
-        </div>
-        <button type="submit" class="btn btn-primary" name="Submit"
-                asp-action="Index" asp-controller="Security" asp-route-area="Security">
-            Submit
-        </button>
-    </fieldset>
+    <div class="container bg-white box-shadow mb-3">
+        <fieldset class="gap-2 col-6 mx-auto">
+            <h4 class="card-title">Input login and password</h4>
+            <div class="mb-3 editor-field">
+                <label>Login</label>
+                <input class="form-control" autocomplete="off" data-val="true" data-val-required="Не указан логин" type="text" asp-for="@Model.Login" autofocus required />
+                <span class="field-validation-valid" asp-validation-for="Login" data-valmsg-for="Login" data-valmsg-replace="true"></span>
+            </div>
+            <div class="mb-3 editor-field">
+                <label>Password</label>
+                <input class="form-control" data-val="true" data-val-required="Не указан пароль" type="password" asp-for="@Model.Password" required>
+                <span class="field-validation-valid" asp-validation-for="Password" data-valmsg-replace="true"></span>
+            </div>
+            <button type="submit" class="btn btn-light mb-3" name="Submit"
+                    asp-action="Index" asp-controller="Security" asp-route-area="Security">
+                Submit
+            </button>
+        </fieldset>
+    </div>
 }
 @{Html.EndForm();}
-
-@*<fieldset>
-        <div class="mb-3, editor-field">
-            @Html.LabelFor(p => p.Login)
-            <input type="text" class="form-control" name="Login" id="Login" autofocus required />
-
-            @Html.EditorFor(p => p.Login)
-            @Html.ValidationMessageFor(p => p.Login)
-        </div>
-        <div class="mb-3, editor-field">
-            @Html.LabelFor(p => p.Password)
-            @Html.PasswordFor(p => p.Password)
-            @Html.ValidationMessageFor(p => p.Password)
-        </div>
-        <button type="submit" class="btn btn-primary" name="Submit">Submit</button>
-    </fieldset>*@

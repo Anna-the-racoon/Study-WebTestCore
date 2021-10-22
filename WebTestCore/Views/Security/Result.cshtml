@@ -4,39 +4,59 @@
     ViewBag.Title = "Result";
 
 }
-@using (Html.BeginForm("Result", "Security", FormMethod.Post))
+@using (Html.BeginForm("Result", "Security", FormMethod.Get))
 {
-    @Html.ValidationSummary()
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white box-shadow mb-3">
+        <div class="container">
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse ">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <button class="btn btn-outline-warning mb-3 ml-2 mr-2" asp-route-area="" asp-controller="Security" asp-action="Update" asp-route-id="@Model.Id">Update</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-danger mb-3 ml-2 mr-2" asp-route-area="" asp-controller="Security" asp-action="Delete" asp-route-id="@Model.Id">Delete</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <h3>You input: </h3>
-    <div class="mb-3, editor-field">
-        <label>Login</label>
-        <input type="text" class="form-control" value="@Model.Login" autofocus readonly />
+    <div class="container bg-white box-shadow mb-3">
+        <fieldset class="gap-2 col-6 mx-auto">
+            <h4 class="card-title">Input login and password</h4>
+            <div class="mb-3 editor-field">
+                <label>Login</label>
+                <input class="form-control" data-val="true" data-val-required="Не указан логин" type="text" value="@Model.Login" />
+                <span class="field-validation-valid" asp-validation-for="Login" data-valmsg-for="Login" data-valmsg-replace="true"></span>
+            </div>
+            <div class="mb-3 editor-field">
+                <label>Password</label>
+                <input class="form-control" data-val="true" data-val-required="Не указан пароль" type="text" value="@Model.Password">
+                <span class="field-validation-valid" asp-validation-for="Password" data-valmsg-replace="true"></span>
+            </div>
+            <button type="submit" class="btn btn-outline-secondary mb-3" asp-route-area="" asp-controller="Admin" asp-action="Index">
+                Open admin
+            </button>
+        </fieldset>
     </div>
-    <div class="mb-3, editor-field">
-        <label>Password</label>
-        <input type="text" class="form-control" value="@Model.Password" readonly />
-    </div>
-    <button type="submit" class="btn btn-primary" asp-action="Index" asp-controller="Admin" asp-route-area="Area">
-        Open admin
-    </button>
-
 }
 
 
 @*<h3>You input: </h3>
-<div class="mb-3, editor-field">
-        @Html.LabelFor(p => p.Login)
-        <br />
-        @Html.TextBoxFor(p => p.Login, new { @readonly = "readonly" })
-        @Html.ValidationMessageFor(p => p.Login)
-    </div>
-<div class="mb-3, editor-field">
-        @Html.LabelFor(p => p.Password)
-        <br />
-        @Html.TextBoxFor(p => p.Password, new { @readonly = "readonly" })
-    </div>
-<button type="submit" class="btn btn-primary"
-        asp-action="Index" asp-controller="Admin" asp-route-area="Area">
-    Вход в админ панель
-</button>*@
+    <div class="mb-3, editor-field">
+            @Html.LabelFor(p => p.Login)
+            <br />
+            @Html.TextBoxFor(p => p.Login, new { @readonly = "readonly" })
+            @Html.ValidationMessageFor(p => p.Login)
+        </div>
+    <div class="mb-3, editor-field">
+            @Html.LabelFor(p => p.Password)
+            <br />
+            @Html.TextBoxFor(p => p.Password, new { @readonly = "readonly" })
+        </div>
+    <button type="submit" class="btn btn-primary"
+            asp-action="Index" asp-controller="Admin" asp-route-area="Area">
+        Вход в админ панель
+    </button>*@
+
+

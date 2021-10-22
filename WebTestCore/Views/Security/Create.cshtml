@@ -1,6 +1,33 @@
-﻿@model WebTestCore.Models.Security.SecurityVm
+﻿@model WebTestCore.Models.Security.SecurityCreateVm
 
 @{
     ViewBag.Title = "Create";
 
 }
+@using (Html.BeginForm("Create", "Security", FormMethod.Post))
+{
+    <div class="container bg-white box-shadow mb-3">
+        <fieldset class="gap-2 col-6 mx-auto">
+            <h4 class="card-title">Create login and password</h4>
+            <div class="mb-3 editor-field">
+                <label>Login</label>
+                <input class="form-control" data-val="true" data-val-required="Не указан логин" type="text" asp-for="@Model.Login" autofocus />
+                <span class="field-validation-valid" asp-validation-for="Login" data-valmsg-for="Login" data-valmsg-replace="true"></span>
+            </div>
+            <div class="mb-3 editor-field">
+                <label>Password</label>
+                <input class="form-control" data-val="true" data-val-required="Не указан пароль" type="password" asp-for="@Model.Password">
+                <span class="field-validation-valid" asp-validation-for="Password" data-valmsg-replace="true"></span>
+            </div>
+            <button type="submit" class="btn btn-primary mb-3" name="Save"
+                    asp-route-area="" asp-controller="Security" asp-action="Create">
+                Save
+            </button>
+            @*<button type="button" class="btn btn-primary mb-3" 
+                    asp-route-area="" asp-controller="Security" asp-action="Index">
+                Back
+            </button>*@
+        </fieldset>
+    </div>
+}
+@{Html.EndForm();}

@@ -21,14 +21,8 @@ namespace WebTestCore
         {
             services.AddControllersWithViews();
 
-            services.AddMvcCore(options =>
-                options.Filters.Add(new HeaderActionFilter()));
-
             //services.AddMvcCore(options =>
-            //    options.Filters.Add(new FormActionFilter()));
-
-            //services.AddMvcCore(options =>
-            //    options.Filters.Add(new BodyActionFilter()));
+            //    options.Filters.Add(new HeaderActionFilter()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

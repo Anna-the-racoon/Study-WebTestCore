@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebTestCore.Models.Security
 {
-    public class SecurityVm
+    public class SecurityDeleteVm
     {
         public int Id { get; set; }
 

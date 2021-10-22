@@ -1,0 +1,33 @@
+﻿@model WebTestCore.Models.Security.SecurityDeleteVm
+
+@{
+    ViewBag.Title = "Delete";
+
+}
+@using (Html.BeginForm("Delete", "Security", FormMethod.Post))
+{
+    <div class="container bg-white box-shadow mb-3">
+        <fieldset class="gap-2 col-6 mx-auto">
+            <h4 class="card-title">Are you sure?</h4>
+            <div class="mb-3 editor-field">
+                <label>Login</label>
+                <input class="form-control" type="text" asp-for="@Model.Login" readonly />
+                <span asp-validation-for="Login" data-valmsg-for="Login" data-valmsg-replace="true"></span>
+            </div>
+            <div class="mb-3 editor-field">
+                <label>Password</label>
+                <input class="form-control" type="text" asp-for="@Model.Password" readonly>
+                <span asp-validation-for="Password" data-valmsg-replace="true"></span>
+            </div>
+            <button type="submit" class="btn btn-light mb-3" name="Submit"
+                    asp-action="Delete" asp-controller="Security" asp-route-area="Security">
+                Delete
+            </button>
+            @*<button type="submit" class="btn btn-primary mb-3" name="Submit"
+                    asp-action="Index" asp-controller="Security" asp-route-area="Security">
+                Back
+            </button>*@
+        </fieldset>
+    </div>
+}
+@{Html.EndForm();}

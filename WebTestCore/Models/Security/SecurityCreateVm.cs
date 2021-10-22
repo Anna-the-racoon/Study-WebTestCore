@@ -3,10 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebTestCore.Models.Security
 {
-    public class SecurityVm
+    public class SecurityCreateVm
     {
-        public int Id { get; set; }
-
         [DisplayName("Login")]
         [Required(ErrorMessage = "Не указан логин")]
         public string Login { get; set; }
