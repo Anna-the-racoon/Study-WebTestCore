@@ -28,6 +28,25 @@ namespace WebTestCore.Models.Security
             return actualLogin != null ? View("Result", security) : View("Index");
         }
         
+        [HttpPost]
+        public IActionResult Result(int? id)
+        {
+            if (id == null) return View("Index");
+
+            var context = new TestDbContext();
+
+            var actualLogin = context.Security
+                .SingleOrDefault(p => p.Id == id);
+
+            var security = new SecurityVm()
+            {
+                Id = actualLogin.Id,
+                Login = actualLogin.Login,
+                Password = actualLogin.Password,
+            };
+            return View("Result", security);
+        }
+
         [HttpGet]
         public IActionResult Create()
         {

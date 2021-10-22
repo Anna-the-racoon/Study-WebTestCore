@@ -34,8 +34,11 @@
                 <input class="form-control" data-val="true" data-val-required="Не указан пароль" type="text" value="@Model.Password">
                 <span class="field-validation-valid" asp-validation-for="Password" data-valmsg-replace="true"></span>
             </div>
-            <button type="submit" class="btn btn-outline-secondary mb-3" asp-route-area="" asp-controller="Admin" asp-action="Index">
+            <button type="submit" class="btn btn-outline-secondary mb-3 ml-3 mr-3" asp-route-area="" asp-controller="Admin" asp-action="Index">
                 Open admin
+            </button>
+            <button type="submit" class="btn btn-outline-secondary mb-3 ml-3 mr-3" asp-route-area="" asp-controller="Home" asp-action="Index">
+                Home
             </button>
         </fieldset>
     </div>
