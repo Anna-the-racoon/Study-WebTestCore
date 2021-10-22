@@ -8,7 +8,7 @@ namespace Database.Configurations.Securities
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("Security", "dbo.Securities.Users");
+            builder.ToTable("Users", "dbo.Securities");
 
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id)
