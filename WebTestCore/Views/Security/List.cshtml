@@ -1,0 +1,52 @@
+﻿@model WebTestCore.Models.Security.SecurityListVm
+
+@{
+    ViewBag.Title = "Result";
+
+}
+@using (Html.BeginForm("Result", "Security", FormMethod.Post))
+{
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white box-shadow mb-3">
+        <div class="container">
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse ">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <button type="submit" class="btn btn-light mb-3" name="Submit"
+                                asp-action="Result" asp-controller="Security" asp-route-area="Security" asp-route-id="@Model.Id">
+                            Back
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container bg-white box-shadow mb-3">
+        <table class="table table-success table-striped">
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    Login
+                </th>
+                <th>
+                    Password
+                </th>
+            </tr>
+            <tr>
+                @foreach (var item in @Model.SecurityList)
+                {
+                    <td>
+                        @item.Id
+                    </td>
+                    <td>
+                        @item.Login
+                    </td>
+                    <td>
+                        @item.Password
+                    </td>
+                }
+            </tr>
+        </table>
+    </div>
+}

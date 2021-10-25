@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Database.Context;
+﻿using Database.Context;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using WebInterface.EfServices;
 
 namespace WebTestCore.Models.Security
 {
@@ -17,15 +18,10 @@ namespace WebTestCore.Models.Security
         {
             if (!ModelState.IsValid) return View("Index");
 
-            var context = new TestDbContext();
+            var result = new SecurityServices();
+            var actualId = result.Authorization(security);
 
-            var actualLogin = context.Security
-                .Where(p => p.Login.Contains(security.Login))
-                .SingleOrDefault(p => p.Password.Contains(security.Password));
-
-            security.Id = actualLogin?.Id ?? -1;
-
-            return actualLogin != null ? View("Result", security) : View("Index");
+            return actualId != null ? View("Result", security) : View("Index");
         }
         
         [HttpPost]
@@ -33,18 +29,32 @@ namespace WebTestCore.Models.Security
         {
             if (id == null) return View("Index");
 
-            var context = new TestDbContext();
+            var result = new SecurityServices();
+            var security = result.Authorization((int)id);
 
-            var actualLogin = context.Security
-                .SingleOrDefault(p => p.Id == id);
-
-            var security = new SecurityVm()
-            {
-                Id = actualLogin.Id,
-                Login = actualLogin.Login,
-                Password = actualLogin.Password,
-            };
             return View("Result", security);
+        }
+
+        [HttpGet]
+        public IActionResult List(SecurityListVm security) 
+        {
+            if (security == null) return View("Index");
+
+            var result = new SecurityServices();
+            var list = result.GetList(security.Id);
+
+            return View(list);
+        }
+
+        [HttpPost]
+        public IActionResult List(int? id) 
+        {
+            if (id == null) return View("Index");
+
+            var result = new SecurityServices();
+            var current = result.BackList((int)id);
+
+            return View(current);
         }
 
         [HttpGet]
@@ -60,25 +70,10 @@ namespace WebTestCore.Models.Security
 
             if (security.Password.Length < 3) return View("Create");
 
-            var context = new TestDbContext();
+            var result = new SecurityServices();
+            result.Create(security);
 
-            var actualLogin = context.Security
-                .Select(p=>p.Login)
-                .Contains(security.Login);
-
-            if (actualLogin) return View("Create");
-
-
-            var newSecurity = new Database.Models.Securities.Security()
-            {
-                Login = security.Login.Trim(),
-                Password = security.Password.Trim(),
-            };
-
-            context.Security.Add(newSecurity);
-            context.SaveChanges();
-
-            return View("Index", null);
+            return View("Index", null);     //View("Create")
         }
         
         [HttpGet]
@@ -86,19 +81,10 @@ namespace WebTestCore.Models.Security
         {
             if (id == null) return View("Index");
 
-            var context = new TestDbContext();
-            
-            var actualLogin = context.Security
-                .SingleOrDefault(p => p.Id == id);
+            var result = new SecurityServices();
+            var security = result.GetUpdate((int)id);
 
-            var current = new SecurityUpdateVm()
-            {
-                Id = actualLogin.Id,
-                Login = actualLogin.Login,
-                Password = actualLogin.Password,
-            };
-
-            return View(current);
+            return View(security);
         }
 
         [HttpPost]
@@ -106,26 +92,8 @@ namespace WebTestCore.Models.Security
         {
             if (!ModelState.IsValid) return View("Index");
 
-            var context = new TestDbContext();
-
-            var actualLogin = context.Security
-                .SingleOrDefault(p => p.Id == security.Id);
-
-            if (actualLogin.Login.ToString().Trim() == security.Login.ToString() && 
-                actualLogin.Password.ToString().Trim() == security.Password.ToString()) 
-                return View("Result", security);
-
-            if (context.Security
-                .Where(p => p.Id != security.Id)
-                .Select(p => p.Login)
-                .Contains(security.Login))
-                return View("Update", actualLogin);
-
-            actualLogin.Login = security.Login;
-            actualLogin.Password = security.Password;
-
-            context.Security.Update(actualLogin);
-            context.SaveChanges();
+            var result = new SecurityServices();
+            result.Update(security);
 
             return View("Index");
         }
@@ -135,33 +103,19 @@ namespace WebTestCore.Models.Security
         {
             if (id == null) return View("Index");
 
-            var context = new TestDbContext();
+            var result = new SecurityServices();
+            var security = result.GetDelete((int)id);
 
-            var actualLogin = context.Security
-                .SingleOrDefault(p => p.Id == id);
-
-            var current = new SecurityDeleteVm()
-            {
-                Id = actualLogin.Id,
-                Login = actualLogin.Login,
-                Password = actualLogin.Password,
-            };
-
-            return View(current);
+            return View(security);
         }
 
         [HttpPost]
         public IActionResult Delete(SecurityDeleteVm security)
         {
             if (!ModelState.IsValid) return View("Index");
-
-            var context = new TestDbContext();
-
-            var actualLogin = context.Security
-                .SingleOrDefault(p => p.Id == security.Id);
-
-            context.Security.Remove(actualLogin);
-            context.SaveChanges();
+            
+            var result = new SecurityServices();
+            result.Delete(security);
 
             return View("Index");
         }
