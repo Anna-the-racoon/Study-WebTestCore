@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using WebTestCore.Models.Security;
 
-
 namespace WebInterface.EfServices
 {
-    public class SecurityServices : ISecurityService
+    public class EfSecurityServices : ISecurityService
     {
         public int Authorization(SecurityVm security)
         {
@@ -21,6 +20,7 @@ namespace WebInterface.EfServices
 
             return security.Id;
         }
+        
         public SecurityVm Authorization(int id)
         {
             var context = new TestDbContext();
@@ -38,7 +38,7 @@ namespace WebInterface.EfServices
             return security;
         }
 
-        public SecurityListVm GetList(int id)
+        public SecurityListVm GetList()
         {
             var context = new TestDbContext();
 
@@ -47,7 +47,6 @@ namespace WebInterface.EfServices
 
             var model = new SecurityListVm()
             {
-                Id = id,
                 SecurityList = security.Select( list => new SecurityList()
                 {
                     Id = list.Id,
@@ -58,24 +57,6 @@ namespace WebInterface.EfServices
             };
 
             return model;
-        }
-
-        public SecurityVm BackList(int id)
-        {
-            var context = new TestDbContext();
-
-            var actualLogin = context.Security
-                .SingleOrDefault(p => p.Id == id);
-
-            var security = new SecurityVm()
-            {
-                Id = actualLogin.Id,
-                Login = actualLogin.Login,
-                Password = actualLogin.Password,
-            };
-
-            return security;
-
         }
 
         public void Create(SecurityCreateVm security)

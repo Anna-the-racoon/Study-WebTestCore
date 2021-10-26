@@ -9,12 +9,11 @@ namespace WebInterface.EfServices
 
         public SecurityVm Authorization(int id);
 
-        public SecurityListVm GetList(int id);
+        public SecurityListVm GetList();
 
         public void Create(SecurityCreateVm security);
 
         public SecurityUpdateVm GetUpdate(int id);
-
         public void Update(SecurityUpdateVm security);
 
         public SecurityDeleteVm GetDelete(int id);

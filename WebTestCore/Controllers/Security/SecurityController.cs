@@ -1,12 +1,17 @@
-﻿using Database.Context;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebInterface.EfServices;
 
 namespace WebTestCore.Models.Security
 {
     public class SecurityController : Controller
     {
+        public ISecurityService _dbService;
+
+        public SecurityController(ISecurityService securityService)
+        {
+            _dbService = securityService;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -18,10 +23,9 @@ namespace WebTestCore.Models.Security
         {
             if (!ModelState.IsValid) return View("Index");
 
-            var result = new SecurityServices();
-            var actualId = result.Authorization(security);
+            var actualId = _dbService.Authorization(security);
 
-            return actualId != null ? View("Result", security) : View("Index");
+            return actualId != 0 ? View("Result", security) : View("Index");
         }
         
         [HttpPost]
@@ -29,32 +33,17 @@ namespace WebTestCore.Models.Security
         {
             if (id == null) return View("Index");
 
-            var result = new SecurityServices();
+            var result = new EfSecurityServices();
             var security = result.Authorization((int)id);
 
             return View("Result", security);
         }
 
-        [HttpGet]
-        public IActionResult List(SecurityListVm security) 
+        public IActionResult List() 
         {
-            if (security == null) return View("Index");
-
-            var result = new SecurityServices();
-            var list = result.GetList(security.Id);
+            var list = _dbService.GetList();
 
             return View(list);
-        }
-
-        [HttpPost]
-        public IActionResult List(int? id) 
-        {
-            if (id == null) return View("Index");
-
-            var result = new SecurityServices();
-            var current = result.BackList((int)id);
-
-            return View(current);
         }
 
         [HttpGet]
@@ -70,10 +59,9 @@ namespace WebTestCore.Models.Security
 
             if (security.Password.Length < 3) return View("Create");
 
-            var result = new SecurityServices();
-            result.Create(security);
+            _dbService.Create(security);
 
-            return View("Index", null);     //View("Create")
+            return View("List", _dbService.GetList());
         }
         
         [HttpGet]
@@ -81,8 +69,7 @@ namespace WebTestCore.Models.Security
         {
             if (id == null) return View("Index");
 
-            var result = new SecurityServices();
-            var security = result.GetUpdate((int)id);
+            var security = _dbService.GetUpdate((int)id);
 
             return View(security);
         }
@@ -92,10 +79,9 @@ namespace WebTestCore.Models.Security
         {
             if (!ModelState.IsValid) return View("Index");
 
-            var result = new SecurityServices();
-            result.Update(security);
+            _dbService.Update(security);
 
-            return View("Index");
+            return View("List", _dbService.GetList());
         }
         
         [HttpGet]
@@ -103,8 +89,7 @@ namespace WebTestCore.Models.Security
         {
             if (id == null) return View("Index");
 
-            var result = new SecurityServices();
-            var security = result.GetDelete((int)id);
+            var security = _dbService.GetDelete((int)id);
 
             return View(security);
         }
@@ -113,11 +98,10 @@ namespace WebTestCore.Models.Security
         public IActionResult Delete(SecurityDeleteVm security)
         {
             if (!ModelState.IsValid) return View("Index");
-            
-            var result = new SecurityServices();
-            result.Delete(security);
 
-            return View("Index");
+            _dbService.Delete(security);
+
+            return View("List", _dbService.GetList());
         }
     }
 }

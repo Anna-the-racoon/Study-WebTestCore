@@ -4,7 +4,7 @@
     ViewBag.Title = "Result";
 
 }
-@using (Html.BeginForm("Result", "Security", FormMethod.Post))
+@using (Html.BeginForm("Result", "Security", FormMethod.Get))
 {
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white box-shadow mb-3">
         <div class="container">
@@ -12,7 +12,7 @@
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
                         <button type="submit" class="btn btn-light mb-3" name="Submit"
-                                asp-action="Result" asp-controller="Security" asp-route-area="Security" asp-route-id="@Model.Id">
+                                asp-action="Index" asp-controller="Home">
                             Back
                         </button>
                     </li>
@@ -21,32 +21,44 @@
         </div>
     </nav>
     <div class="container bg-white box-shadow mb-3">
-        <table class="table table-success table-striped">
-            <tr>
-                <th>
-                    ID
-                </th>
-                <th>
-                    Login
-                </th>
-                <th>
-                    Password
-                </th>
-            </tr>
-            <tr>
+        <table class="table table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Login
+                    </th>
+                    <th>
+                        Password
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
                 @foreach (var item in @Model.SecurityList)
                 {
-                    <td>
-                        @item.Id
-                    </td>
-                    <td>
-                        @item.Login
-                    </td>
-                    <td>
-                        @item.Password
-                    </td>
+                    <tr>
+                        <td>
+                            @item.Id
+                        </td>
+                        <td>
+                            @item.Login
+                        </td>
+                        <td>
+                            @item.Password
+                        </td>
+                        <td>
+                            <a class="nav-link text-warning" asp-route-area="" asp-controller="Security" asp-action="Update" asp-route-id="@item.Id">Update</a>
+                        </td>
+                        <td>
+                            <a class="nav-link text-danger" asp-route-area="" asp-controller="Security" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
                 }
-            </tr>
+            </tbody>
         </table>
     </div>
 }

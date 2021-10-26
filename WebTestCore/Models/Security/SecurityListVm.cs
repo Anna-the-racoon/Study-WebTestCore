@@ -4,10 +4,7 @@ namespace WebTestCore.Models.Security
 {
     public class SecurityListVm
     {
-        public int Id { get; set; }
-
         public List<SecurityList> SecurityList { get; set; }
-
     }
 
     public class SecurityList

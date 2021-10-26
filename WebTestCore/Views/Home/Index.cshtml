@@ -6,3 +6,30 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+
+@*@model WebTestCore.Models.Security.SecurityVm
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container bg-white box-shadow mb-3">
+    <fieldset class="gap-2 col-6 mx-auto">
+        <h4 class="card-title">Input login and password</h4>
+        <div class="mb-3 editor-field">
+            <label>Login</label>
+            <input class="form-control" autocomplete="off" data-val="true" data-val-required="Не указан логин" type="text" asp-for="@Model.Login" autofocus required />
+            <span class="field-validation-valid" asp-validation-for="Login" data-valmsg-for="Login" data-valmsg-replace="true"></span>
+        </div>
+        <div class="mb-3 editor-field">
+            <label>Password</label>
+            <input class="form-control" data-val="true" data-val-required="Не указан пароль" type="password" asp-for="@Model.Password" required>
+            <span class="field-validation-valid" asp-validation-for="Password" data-valmsg-replace="true"></span>
+        </div>
+        <button type="submit" class="btn btn-light mb-3" name="Submit"
+                asp-action="Index" asp-controller="Security">
+            Submit
+        </button>
+    </fieldset>
+</div>*@
