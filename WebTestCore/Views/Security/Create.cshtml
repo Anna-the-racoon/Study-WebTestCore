@@ -19,11 +19,11 @@
                 <input class="form-control" data-val="true" data-val-required="Не указан пароль" type="password" asp-for="@Model.Password">
                 <span class="field-validation-valid" asp-validation-for="Password" data-valmsg-replace="true"></span>
             </div>
-            <button id="submit" type="submit" class="btn btn-primary mb-3" name="submit"
+            <button id="sbm" type="button" class="btn btn-primary mb-3" name="sbm"
                     asp-controller="Security" asp-action="Create">
                 Save
             </button>
-            <button type="submit" class="btn btn-primary mb-3" 
+            <button type="button" class="btn btn-primary mb-3" 
                     asp-controller="Home" asp-action="Index">
                 Back
             </button>
@@ -33,11 +33,10 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $(document).on('click', '#submit', function (event) {
-                alert("Click action happend"),
+            $(document).on('click', '#sbm', function (event) {
 
                     $.ajax({
-                        method: "POST",//на GET не возвращает данные обратно 
+                        method: "POST", 
                         url: "/Security/Ajax",
                         data: { "login": document.getElementById('login').value },
                         dataType: "json",
@@ -45,26 +44,22 @@
                         success: function (data) {
                             let serialize = $.parseJSON(data);
 
-                            if (serialize == null) return;
-
+                            if (serialize == null) {
+                                $('form').submit();
+                                return;
+                            }
                             alert('Введенный вами логин ' + serialize["Login"] + ' уже есть в базе данных с паролем ' + serialize["Password"] + '. Введите другой логин');
-
-                            //event.preventDefault();
-                            //event.stopPropagation();
                         },
 
                         error: function () {
                             alert("Failed.");
                         },
                     })
-                event.stopPropagation();
+
             });
+
         })
 
-        function handler(event) {
-            event.preventDefault();
-            alert("Process stopped.");
-        }
                 
     </script>
 }
