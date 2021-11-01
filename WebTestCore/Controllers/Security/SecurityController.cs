@@ -64,6 +64,13 @@ namespace WebTestCore.Models.Security
             return View("List", _dbService.GetList());
         }
         
+        [HttpPost]
+        public JsonResult Ajax(string login)
+        {
+            var json = _dbService.CheckList(login);
+            return Json(json);
+        }
+
         [HttpGet]
         public IActionResult Update(int? id)
         {

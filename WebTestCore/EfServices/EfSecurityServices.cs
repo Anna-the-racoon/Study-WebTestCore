@@ -1,6 +1,7 @@
 ﻿using Database.Context;
+using Database.Models.Securities;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using WebTestCore.Models.Security;
 
@@ -147,5 +148,32 @@ namespace WebInterface.EfServices
             context.SaveChanges();
         }
 
+        #region Work with JSON
+        public string CheckList(string login)
+        {
+            var context = new TestDbContext();
+
+            var checkLogin = context.Security
+                .SingleOrDefault(p=>p.Login == login);
+
+            var element = checkLogin == null ? null : MakeJson(checkLogin);
+
+            return element;
+        }
+
+        public static string MakeJson(Security securityData)
+        {
+            var json = JsonConvert.SerializeObject(securityData);
+
+            return json;
+        }
+
+        //public void MakeJsonFile()
+        //{
+        //    var json = MakeJson(GetListAll());
+
+        //    File.WriteAllText(@"C:\MyProjects\path.json", json);
+        //}
+        #endregion
     }
 }

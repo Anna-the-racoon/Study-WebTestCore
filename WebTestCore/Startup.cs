@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebTestCore.Filters;
 using WebInterface.EfServices;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace WebTestCore
 {
@@ -22,11 +23,16 @@ namespace WebTestCore
         {
             services.AddControllersWithViews();
 
-            //services.AddTransient<ISecurityService, EfSecurityServices>();
-            services.AddTransient<ISecurityService, AdoSecurityService>();
+            services.AddTransient<ISecurityService, EfSecurityServices>();
+            //services.AddTransient<ISecurityService, AdoSecurityService>();
 
-            services.AddMvcCore(options =>
-                options.Filters.Add(new HeaderActionFilter()));
+            //services.AddMvcCore(options =>
+            //    options.Filters.Add(new HeaderActionFilter()));
+
+            //services.Configure<KestrelServerOptions>(options =>
+            //{
+            //    options.AllowSynchronousIO = false;
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

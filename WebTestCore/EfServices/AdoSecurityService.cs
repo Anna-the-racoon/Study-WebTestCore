@@ -127,6 +127,11 @@ namespace WebInterface.EfServices
             }
         }
 
+        public string CheckList(string login) 
+        {
+            return "anna";
+        }
+
         public SecurityUpdateVm GetUpdate(int id)
         {
             var security = new SecurityUpdateVm();

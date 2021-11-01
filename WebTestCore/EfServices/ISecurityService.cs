@@ -12,6 +12,7 @@ namespace WebInterface.EfServices
         public SecurityListVm GetList();
 
         public void Create(SecurityCreateVm security);
+        public string CheckList(string login);
 
         public SecurityUpdateVm GetUpdate(int id);
         public void Update(SecurityUpdateVm security);

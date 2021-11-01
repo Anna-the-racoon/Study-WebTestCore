@@ -11,7 +11,7 @@
             <h4 class="card-title">Create login and password</h4>
             <div class="mb-3 editor-field">
                 <label>Login</label>
-                <input class="form-control" data-val="true" data-val-required="Не указан логин" type="text" asp-for="@Model.Login" autofocus />
+                <input id="login" class="form-control" data-val="true" data-val-required="Не указан логин" type="text" asp-for="@Model.Login" autofocus />
                 <span class="field-validation-valid" asp-validation-for="Login" data-valmsg-for="Login" data-valmsg-replace="true"></span>
             </div>
             <div class="mb-3 editor-field">
@@ -19,15 +19,53 @@
                 <input class="form-control" data-val="true" data-val-required="Не указан пароль" type="password" asp-for="@Model.Password">
                 <span class="field-validation-valid" asp-validation-for="Password" data-valmsg-replace="true"></span>
             </div>
-            <button type="submit" class="btn btn-primary mb-3" name="Save"
+            <button id="submit" type="submit" class="btn btn-primary mb-3" name="submit"
                     asp-controller="Security" asp-action="Create">
                 Save
             </button>
-            <button type="submit" class="btn btn-primary mb-3" name="Save"
+            <button type="submit" class="btn btn-primary mb-3" 
                     asp-controller="Home" asp-action="Index">
                 Back
             </button>
         </fieldset>
     </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(document).on('click', '#submit', function (event) {
+                alert("Click action happend"),
+
+                    $.ajax({
+                        method: "POST",//на GET не возвращает данные обратно 
+                        url: "/Security/Ajax",
+                        data: { "login": document.getElementById('login').value },
+                        dataType: "json",
+
+                        success: function (data) {
+                            let serialize = $.parseJSON(data);
+
+                            if (serialize == null) return;
+
+                            alert('Введенный вами логин ' + serialize["Login"] + ' уже есть в базе данных с паролем ' + serialize["Password"] + '. Введите другой логин');
+
+                            //event.preventDefault();
+                            //event.stopPropagation();
+                        },
+
+                        error: function () {
+                            alert("Failed.");
+                        },
+                    })
+                event.stopPropagation();
+            });
+        })
+
+        function handler(event) {
+            event.preventDefault();
+            alert("Process stopped.");
+        }
+                
+    </script>
 }
 @{Html.EndForm();}
