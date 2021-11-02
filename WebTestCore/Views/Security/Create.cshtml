@@ -6,7 +6,7 @@
 }
 @using (Html.BeginForm("Create", "Security", FormMethod.Post))
 {
-    <div class="container bg-white box-shadow mb-3">
+    <div class="container bg-white box-shadow mb-3 modal-open">
         <fieldset class="gap-2 col-6 mx-auto">
             <h4 class="card-title">Create login and password</h4>
             <div class="mb-3 editor-field">
@@ -23,44 +23,61 @@
                     asp-controller="Security" asp-action="Create">
                 Save
             </button>
-            <button type="button" class="btn btn-primary mb-3" 
+            <button type="button" class="btn btn-primary mb-3"
                     asp-controller="Home" asp-action="Index">
                 Back
             </button>
+        <div class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Дублирующийся логин</h5>
+                        <button id="close-button" type="button" class="btn-close" data-dismiss="modal" aria-label="true">X</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Введенный вами логин <span class="login"></span> уже есть в базе данных с паролем <span class="password"></span>.<br>Введите другой логин.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         </fieldset>
     </div>
 
     <script type="text/javascript">
-
         $(document).ready(function () {
             $(document).on('click', '#sbm', function (event) {
 
-                    $.ajax({
-                        method: "POST", 
-                        url: "/Security/Ajax",
-                        data: { "login": document.getElementById('login').value },
-                        dataType: "json",
+                $.ajax({
+                    method: "POST",
+                    url: "/Security/Ajax",
+                    data: { "login": document.getElementById('login').value },
+                    dataType: "json",
 
-                        success: function (data) {
-                            let serialize = $.parseJSON(data);
+                    success: function (data) {
+                        let serialize = $.parseJSON(data);
 
-                            if (serialize == null) {
-                                $('form').submit();
-                                return;
-                            }
-                            alert('Введенный вами логин ' + serialize["Login"] + ' уже есть в базе данных с паролем ' + serialize["Password"] + '. Введите другой логин');
-                        },
+                        if (serialize == null) {
+                            $('form').submit();
+                            return;
+                        }
 
-                        error: function () {
-                            alert("Failed.");
-                        },
-                    })
+                        $(".login").append(serialize["Login"]);
+                        $(".password").append(serialize["Password"]);
+                        const elemModal = document.querySelector('.modal');
+                        const modal = new bootstrap.Modal(elemModal, {
+                            backdrop: true,
+                            keyboard: true,
+                            focus: true,
+                        });
+                        modal.show();
+                    },
 
+                    error: function () {
+                        alert("Failed.");
+                    },
+                })
             });
-
-        })
-
-                
+        });
     </script>
 }
 @{Html.EndForm();}
