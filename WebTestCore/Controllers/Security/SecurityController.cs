@@ -43,7 +43,7 @@ namespace WebTestCore.Models.Security
         public async Task<IActionResult> List() 
         {
             var list = await _dbService.GetList();
-
+            //HttpClient 
             return View(list);
         }
 
