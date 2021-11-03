@@ -1,12 +1,12 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using WebTestCore.Models.Security;
+using System.Threading.Tasks;
 
 namespace WebInterface.EfServices
 {
-    public class AdoSecurityService : ISecurityService
+    public class AdoSecurityService //: ISecurityService
     {
         public string ConnectionString { get; set; }
 
@@ -15,7 +15,7 @@ namespace WebInterface.EfServices
             ConnectionString = @"Server=WS-PC-88\SQLEXPRESS03;Database=TestDb;Trusted_Connection=True;";
         }
 
-        public int Authorization(SecurityVm model)
+        public async Task<int> Authorization(SecurityVm model)
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -29,7 +29,7 @@ namespace WebInterface.EfServices
                     Connection = connection,
                 };
 
-                var reader =  command.ExecuteReader();
+                var reader = await command.ExecuteReaderAsync();
 
                 if (!reader.HasRows) return 0;
 
@@ -41,7 +41,7 @@ namespace WebInterface.EfServices
             return model.Id;
         }
 
-        public SecurityVm Authorization(int id)
+        public async Task<SecurityVm> Authorization(int id)
         {
             var security = new SecurityVm();
 
@@ -56,7 +56,7 @@ namespace WebInterface.EfServices
                     Connection = connection,
                 };
 
-                var reader = command.ExecuteReader();
+                var reader = await command.ExecuteReaderAsync();
 
                 if (!reader.HasRows) return null;
 
@@ -70,7 +70,7 @@ namespace WebInterface.EfServices
             return security;
         }
 
-        public SecurityListVm GetList()
+        public async Task<SecurityListVm> GetList()
         {
             SecurityListVm model;
 
@@ -84,7 +84,7 @@ namespace WebInterface.EfServices
                     Connection = connection,
                 };
 
-                var reader = command.ExecuteReader();
+                var reader = await command.ExecuteReaderAsync();
 
                 if (!reader.HasRows) return null;
 
@@ -110,7 +110,7 @@ namespace WebInterface.EfServices
             return model;
         }
 
-        public void Create(SecurityCreateVm security)
+        public async Task Create(SecurityCreateVm security)
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -123,16 +123,16 @@ namespace WebInterface.EfServices
                     Connection = connection,
                 };
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
         }
 
-        public string CheckList(string login) 
+        public string CheckList(string login)
         {
-            return "anna";
+            throw new System.NotImplementedException();
         }
 
-        public SecurityUpdateVm GetUpdate(int id)
+        public async Task<SecurityUpdateVm> GetUpdate(int id)
         {
             var security = new SecurityUpdateVm();
 
@@ -147,7 +147,7 @@ namespace WebInterface.EfServices
                     Connection = connection,
                 };
 
-                var reader = command.ExecuteReader();
+                var reader = await command.ExecuteReaderAsync();
 
                 if (!reader.HasRows) return null;
 
@@ -161,7 +161,7 @@ namespace WebInterface.EfServices
             return security;
         }
 
-        public void Update(SecurityUpdateVm security)
+        public async Task Update(SecurityUpdateVm security)
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -176,11 +176,11 @@ namespace WebInterface.EfServices
                     Connection = connection,
                 };
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
         }
 
-        public SecurityDeleteVm GetDelete(int id)
+        public async Task<SecurityDeleteVm> GetDelete(int id)
         {
             var security = new SecurityDeleteVm();
 
@@ -195,7 +195,7 @@ namespace WebInterface.EfServices
                     Connection = connection,
                 };
 
-                var reader = command.ExecuteReader();
+                var reader = await command.ExecuteReaderAsync();
 
                 if (!reader.HasRows) return null;
 
@@ -209,7 +209,7 @@ namespace WebInterface.EfServices
             return security;
         }
 
-        public void Delete(SecurityDeleteVm security)
+        public async Task Delete(SecurityDeleteVm security)
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -222,8 +222,9 @@ namespace WebInterface.EfServices
                     Connection = connection,
                 };
 
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
         }
+
     }
 }

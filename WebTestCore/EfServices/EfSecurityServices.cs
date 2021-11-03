@@ -4,30 +4,32 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 using WebTestCore.Models.Security;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace WebInterface.EfServices
 {
     public class EfSecurityServices : ISecurityService
     {
-        public int Authorization(SecurityVm security)
+        public async Task<int> Authorization(SecurityVm security)
         {
             var context = new TestDbContext();
 
-            var actualLogin = context.Security
+            var actualLogin = await context.Security
                 .Where(p => p.Login.Contains(security.Login))
-                .SingleOrDefault(p => p.Password.Contains(security.Password));
+                .SingleOrDefaultAsync(p => p.Password.Contains(security.Password));
 
             security.Id = actualLogin.Id;
 
             return security.Id;
         }
         
-        public SecurityVm Authorization(int id)
+        public async Task<SecurityVm> Authorization(int id)
         {
             var context = new TestDbContext();
 
-            var actualLogin = context.Security
-                .SingleOrDefault(p => p.Id == id);
+            var actualLogin = await context.Security
+                .SingleOrDefaultAsync(p => p.Id == id);
 
             var security = new SecurityVm()
             {
@@ -39,12 +41,12 @@ namespace WebInterface.EfServices
             return security;
         }
 
-        public SecurityListVm GetList()
+        public async Task<SecurityListVm> GetList()
         {
             var context = new TestDbContext();
 
-            var security = context.Security
-                .ToList();
+            var security = await context.Security
+                .ToListAsync();
 
             var model = new SecurityListVm()
             {
@@ -60,7 +62,7 @@ namespace WebInterface.EfServices
             return model;
         }
 
-        public void Create(SecurityCreateVm security)
+        public async Task Create(SecurityCreateVm security)
         {
             var context = new TestDbContext();
 
@@ -70,22 +72,22 @@ namespace WebInterface.EfServices
 
             if (actualLogin) return;
 
-            var newSecurity = new Database.Models.Securities.Security()
+            var newSecurity = new Security()
             {
                 Login = security.Login.Trim(),
                 Password = security.Password.Trim(),
             };
 
-            context.Security.Add(newSecurity);
-            context.SaveChanges();
+            await context.Security.AddAsync(newSecurity);
+            await context.SaveChangesAsync();
         }
 
-        public SecurityUpdateVm GetUpdate(int id)
+        public async Task<SecurityUpdateVm> GetUpdate(int id)
         {
             var context = new TestDbContext();
 
-            var actualLogin = context.Security
-                .SingleOrDefault(p => p.Id == id);
+            var actualLogin = await context.Security
+                .SingleOrDefaultAsync(p => p.Id == id);
 
             var current = new SecurityUpdateVm()
             {
@@ -96,12 +98,13 @@ namespace WebInterface.EfServices
 
             return current;
         }
-        public void Update(SecurityUpdateVm security)
+
+        public async Task Update(SecurityUpdateVm security)
         {
             var context = new TestDbContext();
 
-            var actualLogin = context.Security
-                .SingleOrDefault(p => p.Id == security.Id);
+            var actualLogin = await context.Security
+                .SingleOrDefaultAsync(p => p.Id == security.Id);
 
             if (actualLogin.Login.ToString().Trim() == security.Login.ToString() &&
                 actualLogin.Password.ToString().Trim() == security.Password.ToString())
@@ -120,12 +123,12 @@ namespace WebInterface.EfServices
             context.SaveChanges();
         }
 
-        public SecurityDeleteVm GetDelete(int id)
+        public async Task<SecurityDeleteVm> GetDelete(int id)
         {
             var context = new TestDbContext();
 
-            var actualLogin = context.Security
-                .SingleOrDefault(p => p.Id == id);
+            var actualLogin = await context.Security
+                .SingleOrDefaultAsync(p => p.Id == id);
 
             var current = new SecurityDeleteVm()
             {
@@ -137,15 +140,15 @@ namespace WebInterface.EfServices
             return current;
         }
 
-        public void Delete(SecurityDeleteVm security)
+        public async Task Delete(SecurityDeleteVm security)
         {
             var context = new TestDbContext();
 
-            var actualLogin = context.Security
-                .SingleOrDefault(p => p.Id == security.Id);
+            var actualLogin = await context.Security
+                .SingleOrDefaultAsync(p => p.Id == security.Id);
 
             context.Security.Remove(actualLogin);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         #region Work with JSON
@@ -160,20 +163,13 @@ namespace WebInterface.EfServices
 
             return element;
         }
-
+        
         public static string MakeJson(Security securityData)
         {
             var json = JsonConvert.SerializeObject(securityData);
 
             return json;
         }
-
-        //public void MakeJsonFile()
-        //{
-        //    var json = MakeJson(GetListAll());
-
-        //    File.WriteAllText(@"C:\MyProjects\path.json", json);
-        //}
         #endregion
     }
 }

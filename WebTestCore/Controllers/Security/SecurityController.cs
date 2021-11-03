@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebInterface.EfServices;
+using System.Threading.Tasks;
 
 namespace WebTestCore.Models.Security
 {
@@ -19,29 +20,29 @@ namespace WebTestCore.Models.Security
         }
 
         [HttpPost]
-        public IActionResult Index(SecurityVm security)
+        public async Task<IActionResult> Index(SecurityVm security)
         {
             if (!ModelState.IsValid) return View("Index");
 
-            var actualId = _dbService.Authorization(security);
+            var actualId = await _dbService.Authorization(security);
 
             return actualId != 0 ? View("Result", security) : View("Index");
         }
         
         [HttpPost]
-        public IActionResult Result(int? id)
+        public async Task<IActionResult> Result(int? id)
         {
             if (id == null) return View("Index");
 
             var result = new EfSecurityServices();
-            var security = result.Authorization((int)id);
+            var security = await result.Authorization((int)id);
 
             return View("Result", security);
         }
 
-        public IActionResult List() 
+        public async Task<IActionResult> List() 
         {
-            var list = _dbService.GetList();
+            var list = await _dbService.GetList();
 
             return View(list);
         }
@@ -53,15 +54,15 @@ namespace WebTestCore.Models.Security
         }
 
         [HttpPost]
-        public IActionResult Create(SecurityCreateVm security)
+        public async Task<IActionResult> Create(SecurityCreateVm security)
         {
             if (!ModelState.IsValid) return View("Create");
 
             if (security.Password.Length < 3) return View("Create");
 
-            _dbService.Create(security);
+            await _dbService.Create(security);
 
-            return View("List", _dbService.GetList());
+            return View("List", await _dbService.GetList());
         }
         
         [HttpPost]
@@ -72,43 +73,43 @@ namespace WebTestCore.Models.Security
         }
 
         [HttpGet]
-        public IActionResult Update(int? id)
+        public async Task<IActionResult> Update(int? id)
         {
             if (id == null) return View("Index");
 
-            var security = _dbService.GetUpdate((int)id);
+            var security = await _dbService.GetUpdate((int)id);
 
             return View(security);
         }
 
         [HttpPost]
-        public IActionResult Update(SecurityUpdateVm security)
+        public async Task<IActionResult> Update(SecurityUpdateVm security)
         {
             if (!ModelState.IsValid) return View("Index");
 
-            _dbService.Update(security);
+            await _dbService.Update(security);
 
-            return View("List", _dbService.GetList());
+            return View("List", await _dbService.GetList());
         }
         
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return View("Index");
 
-            var security = _dbService.GetDelete((int)id);
+            var security = await _dbService.GetDelete((int)id);
 
             return View(security);
         }
 
         [HttpPost]
-        public IActionResult Delete(SecurityDeleteVm security)
+        public async Task<IActionResult> Delete(SecurityDeleteVm security)
         {
             if (!ModelState.IsValid) return View("Index");
 
-            _dbService.Delete(security);
+            await _dbService.Delete(security);
 
-            return View("List", _dbService.GetList());
+            return View("List", await _dbService.GetList());
         }
     }
 }
