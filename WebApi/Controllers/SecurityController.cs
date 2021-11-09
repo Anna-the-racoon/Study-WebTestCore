@@ -118,12 +118,17 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpPut("updateJson")]
-        public async Task<ActionResult> UpdateJson(string json)
+        [HttpPost("updateJson")]
+        public async Task<ActionResult> UpdateJson([FromBody]SecurityUpdateJson json)
         {
             if (json == null) return BadRequest();
 
-            var security = JsonConvert.DeserializeObject<SecurityUpdate>(json);
+            var security = new SecurityUpdate()
+            {
+                Id = int.Parse(json.Id),
+                Login = json.Login,
+                Password = json.Password,
+            };
 
             var context = new TestDbContext();
 
