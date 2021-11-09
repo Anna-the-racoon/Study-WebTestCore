@@ -7,9 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebInterface", "WebTestCore
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Database.csproj", "{B039FF14-E619-4D1C-8992-F2FC49CD5597}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{84CB351C-0396-444E-94E7-71AE376400CC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{855F1B83-D58A-4C9A-877B-E452EDF35B14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{855F1B83-D58A-4C9A-877B-E452EDF35B14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{B039FF14-E619-4D1C-8992-F2FC49CD5597}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B039FF14-E619-4D1C-8992-F2FC49CD5597}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B039FF14-E619-4D1C-8992-F2FC49CD5597}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84CB351C-0396-444E-94E7-71AE376400CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84CB351C-0396-444E-94E7-71AE376400CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84CB351C-0396-444E-94E7-71AE376400CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84CB351C-0396-444E-94E7-71AE376400CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{855F1B83-D58A-4C9A-877B-E452EDF35B14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{855F1B83-D58A-4C9A-877B-E452EDF35B14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{855F1B83-D58A-4C9A-877B-E452EDF35B14}.Release|Any CPU.ActiveCfg = Release|Any CPU
