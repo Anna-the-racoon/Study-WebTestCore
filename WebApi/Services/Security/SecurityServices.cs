@@ -19,13 +19,6 @@ namespace WebApi.Services.Security
 
             var models = new SecurityList()
             {
-                GetSecurityList = security.Select(model => new SecuritiesList()
-                {
-                    Id = model.Id,
-                    Login = model.Login,
-                    Password = model.Password,
-                })
-                .ToList(),
             };
 
             return models;

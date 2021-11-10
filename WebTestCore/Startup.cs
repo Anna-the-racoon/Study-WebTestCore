@@ -23,8 +23,10 @@ namespace WebTestCore
         {
             services.AddControllersWithViews();
 
-            services.AddTransient<ISecurityService, EfSecurityServices>();
+            //services.AddTransient<ISecurityService, EfSecurityServices>();
             //services.AddTransient<ISecurityService, AdoSecurityService>();
+            services.AddTransient<ISecurityService, WebApiSecurityServices>();
+
 
             //services.AddMvcCore(options =>
             //    options.Filters.Add(new HeaderActionFilter()));

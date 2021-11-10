@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using WebTestCore.Models.Security;
 
@@ -23,34 +25,71 @@ namespace WebInterface.EfServices
             throw new NotImplementedException();
         }
 
-        public Task Create(SecurityCreateVm security)
+        public async Task Create(SecurityCreateVm security)
         {
-            throw new NotImplementedException();
+            var service = new HttpClient();
+
+            var content = new StringContent("", Encoding.UTF8, "text/plain");
+
+            await service.PostAsync($"http://localhost:5001/api/security/create?Login={security.Login}&Password={security.Password}", content);
         }
 
-        public Task Delete(SecurityDeleteVm security)
+        public async Task Delete(SecurityDeleteVm security)
         {
-            throw new NotImplementedException();
+            var service = new HttpClient();
+
+            await service.DeleteAsync($"http://localhost:5001/api/security/delete?Id={security.Id}");
         }
 
-        public Task<SecurityDeleteVm> GetDelete(int id)
+        public async Task<SecurityDeleteVm> GetDelete(int id)
         {
-            throw new NotImplementedException();
+            var service = new HttpClient();
+
+            var url = $"http://localhost:5001/api/security/GetId?id={id}";
+
+            var getObject = await service.GetStringAsync(url);
+
+            var security = JsonConvert.DeserializeObject<SecurityDeleteVm>(getObject);
+
+            return security;
         }
 
-        public Task<SecurityListVm> GetList()
+        public async Task<SecurityListVm> GetList()
         {
-            throw new NotImplementedException();
+            var service = new HttpClient();
+
+            var securityList = await service.GetStringAsync("http://localhost:5001/api/security");
+
+            var list = JsonConvert.DeserializeObject<List<SecurityList>>(securityList);
+
+            var model = new SecurityListVm()
+            {
+                SecurityList = list,
+            };
+
+            return model;
         }
 
-        public Task<SecurityUpdateVm> GetUpdate(int id)
+        public async Task<SecurityUpdateVm> GetUpdate(int id)
         {
-            throw new NotImplementedException();
+            var service = new HttpClient();
+
+            var url = $"http://localhost:5001/api/security/GetId?id={id}";
+                
+            var getObject = await service.GetStringAsync(url);
+
+            var security = JsonConvert.DeserializeObject<SecurityUpdateVm>(getObject);
+
+            return security;
         }
 
-        public Task Update(SecurityUpdateVm security)
+        public async Task Update(SecurityUpdateVm security)
         {
-            throw new NotImplementedException();
+            var service = new HttpClient();
+
+            var json = new StringContent(JsonConvert.SerializeObject(security), Encoding.UTF8, "application/json");
+
+            await service.PostAsync(("http://localhost:5001/api/security/updateJson"), json);
         }
     }
 }

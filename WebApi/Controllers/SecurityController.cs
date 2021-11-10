@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApi.Models.Security.Security;
@@ -17,29 +18,34 @@ namespace WebApi.Controllers
     public class SecurityController : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<SecurityList>> GetList()
+        public async Task<ActionResult<string>> GetList()
         {
             var context = new TestDbContext();
 
             var security = await context.Security
                 .ToListAsync();
 
-            var models = new SecurityList()
-            {
-                GetSecurityList = security.Select(model => new SecuritiesList()
-                {
-                    Id = model.Id,
-                    Login = model.Login,
-                    Password = model.Password,
-                })
-                .ToList(),
-            };
+            var models = new List<SecurityList>();
 
-            return models;
+            foreach (var item in security)
+            {
+                var element = new SecurityList()
+                {
+                    Id = item.Id,
+                    Login = item.Login,
+                    Password = item.Password,
+                };
+
+                models.Add(element);
+            }
+
+            var json = JsonConvert.SerializeObject(models);
+
+            return json;
         }
 
         [HttpGet("GetId")]
-        public async Task<ActionResult<SecuritiesList>> GetId(int? id)
+        public async Task<ActionResult<SecurityList>> GetId(int? id)
         {
             if (id == null) return BadRequest();
 
@@ -50,7 +56,7 @@ namespace WebApi.Controllers
 
             if (security == null) return BadRequest();
 
-            var model = new SecuritiesList()
+            var model = new SecurityList()
             {
                 Id = security.Id,
                 Login = security.Login,
@@ -119,16 +125,9 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("updateJson")]
-        public async Task<ActionResult> UpdateJson([FromBody]SecurityUpdateJson json)
+        public async Task<ActionResult> UpdateJson([FromBody]SecurityUpdate security)
         {
-            if (json == null) return BadRequest();
-
-            var security = new SecurityUpdate()
-            {
-                Id = int.Parse(json.Id),
-                Login = json.Login,
-                Password = json.Password,
-            };
+            if (security == null) return BadRequest();
 
             var context = new TestDbContext();
 

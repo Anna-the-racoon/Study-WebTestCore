@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace WebInterface.EfServices
 {
-    public class EfSecurityServices : ISecurityService
+    public class EfSecurityServices //: ISecurityService
     {
         public async Task<int> Authorization(SecurityVm security)
         {

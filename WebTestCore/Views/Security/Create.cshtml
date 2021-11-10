@@ -6,7 +6,7 @@
 }
 @using (Html.BeginForm("Create", "Security", FormMethod.Post))
 {
-    <script src="~/js/checkInputParameters.js"></script>
+    @*<script src="~/js/checkInputParameters.js"></script>*@
 
     <div class="container bg-white box-shadow mb-3 modal-open">
         <fieldset class="gap-2 col-6 mx-auto">
@@ -21,7 +21,7 @@
                 <input class="form-control" data-val="true" data-val-required="Не указан пароль" type="password" asp-for="@Model.Password">
                 <span class="field-validation-valid" asp-validation-for="Password" data-valmsg-replace="true"></span>
             </div>
-            <button id="sbm" type="button" class="btn btn-primary mb-3" name="sbm"
+            <button id="sbm" type="submit" class="btn btn-primary mb-3" name="sbm"
                     asp-controller="Security" asp-action="Create">
                 Save
             </button>
@@ -29,7 +29,7 @@
                     asp-controller="Home" asp-action="Index">
                 Back
             </button>
-            <div class="modal" tabindex="-1">
+            @*<div class="modal" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
         </fieldset>
     </div>
 }
